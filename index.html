@@ -1,614 +1,423 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Niaz De Coder · Portfolio</title>
-  <!-- Bootstrap 5 + Icons + Font Awesome -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Google Font (optional clean type) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
-  <style>
-    * {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    body {
-      padding-top: 72px; /* for fixed navbar */
-      background-color: #fbfdff;
-      scroll-behavior: smooth; /* fallback smooth, but we use js for offset */
-    }
-    /* modern navbar */
-    .navbar {
-      background: rgba(255,255,255,0.9);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-    .navbar-nav .nav-link {
-      font-weight: 500;
-      color: #2d3e50;
-      margin: 0 0.2rem;
-      padding: 0.5rem 1rem;
-      border-radius: 30px;
-      transition: 0.2s;
-    }
-    .navbar-nav .nav-link:hover {
-      background: #f0f5fe;
-      color: #1e6f9f;
-    }
-    /* logo */
-    .navbar-brand img {
-      height: 124px;
-      width: auto;
-      transition: transform 0.2s;
-    }
-    .navbar-brand img:hover { transform: scale(1.03); }
 
-    /* sections general */
-    section {
-      padding: 80px 0;
-      scroll-margin-top: 70px;
-    }
-    .section-title {
-      font-size: 2.5rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 3rem;
-      color: #1a2b3c;
-      position: relative;
-    }
-    .section-title::after {
-      content: '';
-      display: block;
-      width: 70px;
-      height: 4px;
-      background: linear-gradient(90deg, #2b7a8a, #5ec8d8);
-      border-radius: 4px;
-      margin-top: 10px;
-    }
-
-    /* home section special */
-    #home {
-      background: linear-gradient(145deg, #ffffff 0%, #f4fafd 100%);
-      min-height: calc(100vh - 72px);
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid #e9f0f5;
-    }
-    .home-title {
-      font-size: 4.2rem;
-      font-weight: 700;
-      background: linear-gradient(130deg, #173753, #1d7a8c);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.2;
-    }
-    .home-sub {
-      font-size: 1.8rem;
-      color: #2f5c77;
-      font-weight: 400;
-    }
-    .bio-short {
-      font-size: 1.2rem;
-      color: #3a4d62;
-      max-width: 600px;
-      margin: 1.5rem 0;
-    }
-    .btn-about-link {
-      background: #1b6d8a;
-      color: white;
-      padding: 12px 32px;
-      border-radius: 40px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: 0.2s;
-      border: none;
-      box-shadow: 0 10px 20px -8px rgba(27,109,138,0.3);
-    }
-    .btn-about-link:hover {
-      background: #155a73;
-      color: white;
-      transform: translateY(-2px);
-    }
-
-    /* about card */
-    .about-card {
-      background: white;
-      border-radius: 28px;
-      padding: 2.5rem;
-      box-shadow: 0 30px 40px -20px rgba(0,40,60,0.15);
-      border: 1px solid rgba(0,150,200,0.08);
-    }
-    .profile-img {
-      width: 100%;
-      max-width: 280px;
-      border-radius: 32px;
-      box-shadow: 0 20px 25px -12px #1e4e6f;
-      transition: 0.3s;
-      border: 3px solid white;
-    }
-    .profile-img:hover { transform: scale(1.01); }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 0.8rem 0.2rem;
-      margin: 1.5rem 0;
-    }
-    .info-label { font-weight: 600; color: #174e6b; }
-    .info-value { color: #213b4f; }
-
-    /* education cards */
-    .edu-item {
-      background: white;
-      padding: 1.8rem;
-      border-radius: 24px;
-      box-shadow: 0 8px 24px rgba(0,40,60,0.06);
-      border-left: 6px solid #2b7a8a;
-      margin-bottom: 24px;
-      transition: 0.2s;
-    }
-    .edu-item:hover { box-shadow: 0 16px 28px rgba(0,100,130,0.1); }
-    .edu-year { color: #1d6f8b; font-weight: 600; letter-spacing: 0.5px; }
-    .edu-title { font-weight: 700; font-size: 1.4rem; color: #032b3d; }
-    .edu-place { color: #2e5d77; }
-
-    /* skills chips */
-    .skill-cat {
-      font-weight: 700;
-      color: #0b445b;
-      font-size: 1.5rem;
-      margin: 1.8rem 0 0.8rem 0;
-    }
-    .skill-chip {
-      display: inline-block;
-      background: #e7f2f8;
-      color: #115f7a;
-      padding: 0.5rem 1.3rem;
-      border-radius: 40px;
-      margin: 0.4rem 0.6rem 0.4rem 0;
-      font-weight: 500;
-      font-size: 1rem;
-      transition: 0.1s;
-      border: 1px solid #c3ddee;
-    }
-    .skill-chip:hover {
-      background: #cbe6f2;
-      transform: scale(1.02);
-    }
-
-    /* project cards */
-    .project-card {
-      border: none;
-      border-radius: 28px;
-      background: white;
-      box-shadow: 0 12px 30px rgba(0,50,70,0.05);
-      transition: 0.2s;
-      margin-bottom: 30px;
-      overflow: hidden;
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-    .project-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 25px 35px -8px #1c7188;
-    }
-    .project-img {
-      width: 100%;
-      aspect-ratio: 16/10;
-      object-fit: cover;
-      background-color: #bee0ed;
-    }
-    .project-title {
-      font-weight: 700;
-      font-size: 1.3rem;
-      padding: 1.2rem 1.2rem 1.5rem;
-      margin: 0;
-      color: #0f3f55;
-    }
-
-    /* contact & form */
-    .contact-form {
-      background: white;
-      border-radius: 36px;
-      padding: 2.5rem;
-      box-shadow: 0 20px 35px rgba(0,60,90,0.05);
-      border: 1px solid rgba(30,110,140,0.1);
-    }
-    .form-control, .form-floating>label {
-      border-radius: 20px;
-      border: 1.5px solid #dbeaf0;
-      padding: 1rem 1.2rem;
-      height: auto;
-    }
-    .form-control:focus {
-      border-color: #2687a8;
-      box-shadow: 0 0 0 4px rgba(38,135,168,0.2);
-    }
-    .btn-submit {
-      background: #1f718b;
-      color: white;
-      border-radius: 40px;
-      padding: 12px 30px;
-      font-weight: 600;
-      border: none;
-      width: 100%;
-      transition: 0.15s;
-    }
-    .btn-submit:hover { background: #0f5973; }
-
-    .social-btn {
-      background: #f0f7fc;
-      color: #1f607a;
-      width: 54px;
-      height: 54px;
-      border-radius: 30px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      margin: 0 6px;
-      transition: 0.15s;
-      border: 1px solid #cbe0eb;
-    }
-    .social-btn:hover {
-      background: #cde3ef;
-      color: #0b4455;
-      transform: scale(1.07);
-    }
-
-    footer {
-      background: #0f2632;
-      color: #b4d4e0;
-      padding: 28px 0;
-      border-top: 1px solid #1b495b;
-    }
-
-    /* mobile fix */
-    @media (max-width: 768px) {
-      .home-title { font-size: 3rem; }
-      .section { padding: 60px 0; }
-      .navbar-brand img { height: 34px; }
-    }
-  </style>
-</head>
-<body>
-
-<!-- FIXED NAVBAR -->
-<nav class="navbar navbar-expand-lg fixed-top py-2">
-  <div class="container">
-    <a class="navbar-brand" href="#home">
-      <img src="assets/logo.png" alt="Niaz logo" onerror="this.src='https://via.placeholder.com/120x42?text=LOGO'">
-    </a>
-    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" 
-            aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarMain">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
-        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
-        <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
-        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<!-- HOME section -->
-<section id="home">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-8">
-        <h1 class="home-title">Niaz De Coder</h1>
-        <p class="home-sub">Student | Website Developer</p>
-        <p class="bio-short">Building sleek, responsive websites with a passion for UI/UX. Based in Bangladesh, coding modern experiences.</p>
-        <a href="#about" class="btn-about-link">Explore more <i class="bi bi-arrow-right ms-2"></i></a>
-      </div>
-      <div class="col-lg-4 d-none d-lg-block text-center">
-        <i class="bi bi-code-square" style="font-size: 12rem; color: #cde3f0;"></i>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT section -->
-<section id="about">
-  <div class="container">
-    <h2 class="section-title">About me</h2>
-    <div class="about-card">
-      <div class="row g-4 align-items-center">
-        <div class="col-md-4 text-center">
-          <img src="assets/profile.jpg" alt="profile" class="profile-img" onerror="this.src='https://via.placeholder.com/280x280?text=PROFILE'">
-        </div>
-        <div class="col-md-8">
-          <div class="info-grid">
-            <span class="info-label">Full Name</span><span class="info-value">Md. Niaz Al Motin</span>
-            <span class="info-label">Date of Birth</span><span class="info-value">7th June, 2006</span>
-            <span class="info-label">Nationality</span><span class="info-value">Bangladesh</span>
-            <span class="info-label">Religion</span><span class="info-value">Muslim</span>
-            <span class="info-label">Profession</span><span class="info-value">Student & Website Developer</span>
-          </div>
-          <p class="mt-4 fs-5" style="color: #1e4e63;">A passionate web developer from Dhaka. I love turning ideas into interactive reality with clean code and creative design. Currently studying BBA at AIUB, and developing websites as a freelancer and learner.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EDUCATION -->
-<section id="education" style="background: #f7fcff;">
-  <div class="container">
-    <h2 class="section-title">Education</h2>
-    <div class="edu-item">
-      <span class="edu-year">2020 – 2022</span>
-      <div class="edu-title">Secondary School Certificate</div>
-      <div class="edu-place">South Point School and College</div>
-    </div>
-    <div class="edu-item">
-      <span class="edu-year">2023 – 2024</span>
-      <div class="edu-title">Higher Secondary Certificate</div>
-      <div class="edu-place">Dhaka Commerce College</div>
-    </div>
-    <div class="edu-item">
-      <span class="edu-year">2025 – Present</span>
-      <div class="edu-title">Bachelor in Business Studies</div>
-      <div class="edu-place">American International University of Bangladesh</div>
-    </div>
-    <div class="edu-item">
-      <span class="edu-year">2023</span>
-      <div class="edu-title">Website Design & Development course</div>
-      <div class="edu-place">Bangladesh Korean Institute ICT · BCC</div>
-    </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="container">
-    <h2 class="section-title">Skills</h2>
-    <div class="skill-cat"><i class="bi bi-code-slash me-2"></i>Coding</div>
-    <div>
-      <span class="skill-chip">HTML</span><span class="skill-chip">CSS</span><span class="skill-chip">JavaScript</span><span class="skill-chip">PHP</span><span class="skill-chip">Python</span>
-    </div>
-    <div class="skill-cat"><i class="bi bi-pc-display me-2"></i>Platforms</div>
-    <div>
-      <span class="skill-chip">Visual Studio</span><span class="skill-chip">Github</span><span class="skill-chip">Netlify</span>
-    </div>
-    <div class="skill-cat"><i class="bi bi-boxes me-2"></i>Frameworks</div>
-    <div>
-      <span class="skill-chip">Bootstrap</span><span class="skill-chip">React</span>
-    </div>
-    <div class="skill-cat"><i class="bi bi-database me-2"></i>Database</div>
-    <div>
-      <span class="skill-chip">MySQL</span>
-    </div>
-    <div class="skill-cat"><i class="bi bi-translate me-2"></i>Language</div>
-    <div>
-      <span class="skill-chip">Bengali</span><span class="skill-chip">English</span><span class="skill-chip">Hindi</span>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects" style="background: #f4fafe;">
-  <div class="container">
-    <h2 class="section-title">Projects</h2>
-    <div class="row g-4">
-      <!-- 6 project cards -->
-      <div class="col-md-6 col-lg-4"><a href="https://niazdecoderdemoresturant.netlify.app/" class="project-card" target="_blank">
-        <img src="assets/project1.png" class="project-img" onerror="this.src='https://via.placeholder.com/600x400?text=Restaurant'">
-        <div class="project-title">Restaurant website</div>
-      </a></div>
-      <div class="col-md-6 col-lg-4"><a href="https://niazdecoderschool.netlify.app" class="project-card" target="_blank">
-        <img src="assets/project2.png" class="project-img" onerror="this.src='https://via.placeholder.com/600x400?text=School'">
-        <div class="project-title">School Website</div>
-      </a></div>
-      <div class="col-md-6 col-lg-4"><a href="https://niazdecodershopping.netlify.app" class="project-card" target="_blank">
-        <img src="assets/project3.png" class="project-img" onerror="this.src='https://via.placeholder.com/600x400?text=Shopping'">
-        <div class="project-title">Shopping Website</div>
-      </a></div>
-      <div class="col-md-6 col-lg-4"><a href="https://niazdecoderhotel.netlify.app" class="project-card" target="_blank">
-        <img src="assets/project4.png" class="project-img" onerror="this.src='https://via.placeholder.com/600x400?text=Hotel'">
-        <div class="project-title">Hotel Website</div>
-      </a></div>
-      <div class="col-md-6 col-lg-4"><a href="https://niazdecoderbill.netlify.app" class="project-card" target="_blank">
-        <img src="assets/project5.png" class="project-img" onerror="this.src='https://via.placeholder.com/600x400?text=Billing'">
-        <div class="project-title">Billing Website</div>
-      </a></div>
-      <div class="col-md-6 col-lg-4"><a href="#" class="project-card" target="_blank">
-        <img src="assets/project6.png" class="project-img" onerror="this.src='https://via.placeholder.com/600x400?text=Gaming'">
-        <div class="project-title">Gaming Website</div>
-      </a></div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT + form & social -->
-<section id="contact">
-  <div class="container">
-    <h2 class="section-title">Contact</h2>
-    <div class="row">
-      <div class="col-lg-7 mb-5 mb-lg-0">
-        <div class="contact-form">
-          <h4 class="mb-4" style="color: #184f68;">Let's talk <i class="bi bi-chat-dots"></i></h4>
-          <form id="contactForm">
-            <div class="form-floating mb-4">
-              <input type="text" class="form-control" id="name" placeholder="Your name" required>
-              <label for="name">Full name</label>
-            </div>
-            <div class="form-floating mb-4">
-              <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
-              <label for="email">Email address</label>
-            </div>
-            <div class="form-floating mb-4">
-              <input type="tel" class="form-control" id="phone" placeholder="+8801...">
-              <label for="phone">Phone number</label>
-            </div>
-            <div class="form-floating mb-4">
-              <textarea class="form-control" id="message" style="height: 140px" placeholder="Message" required></textarea>
-              <label for="message">Your message</label>
-            </div>
-            <button type="submit" class="btn-submit">Send message</button>
-            <div id="formStatus" class="mt-3 small"></div>
-          </form>
-        </div>
-      </div>
-      <div class="col-lg-5">
-        <div class="bg-white p-4 rounded-4 h-100 d-flex flex-column justify-content-center" style="border-radius: 36px; box-shadow: 0 20px 30px rgba(0,0,0,0.02);">
-          <h5 class="mb-4" style="color: #1b5f7a;"><i class="bi bi-hand-thumbs-up"></i> Connect via social</h5>
-          <div class="mb-4">
-            <a href="https://www.facebook.com/niazdecoder" class="social-btn"><i class="bi bi-facebook"></i></a>
-            <a href="https://www.instagram.com/niazempirez/" class="social-btn"><i class="bi bi-instagram"></i></a>
-            <a href="https://wa.me/1937333533" class="social-btn"><i class="bi bi-whatsapp"></i></a>
-          </div>
-          <p class="text-secondary">Or write me directly — I usually reply within 24h.</p>
-          <hr class="my-3">
-          <p class="mb-0"><i class="bi bi-geo-alt-fill me-2" style="color: #226b86;"></i> Dhaka, Bangladesh</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="text-center">
-  <div class="container">
-    <p class="mb-0">© 2026 Niaz De Coder</p>
-  </div>
-</footer>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Custom JS: smooth scroll offset + form handler -->
-<script>
-  (function() {
-    // ----- smooth scroll with offset for fixed navbar -----
-    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-    const headerHeight = document.querySelector('.navbar').offsetHeight;
-
-    navLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href'); // #home, #about etc
-        if (targetId === '#') return;
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-          const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
-          window.scrollTo({
-            top: elementPosition - headerHeight,
-            behavior: 'smooth'
-          });
-          // close mobile menu if open
-          const navbarToggler = document.querySelector('.navbar-toggler');
-          const navbarCollapse = document.querySelector('.navbar-collapse');
-          if (navbarCollapse.classList.contains('show')) {
-            navbarToggler.click();
-          }
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Niaz De Coder | Full-Stack Developer &amp; Consultant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Montserrat:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00d4ff",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#0f2023",
+                        "charcoal": "#121c1e",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "heading": ["Montserrat", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
         }
-      });
-    });
-
-    // ----- contact form google sheets (appscript) -----
-    const form = document.getElementById('contactForm');
-    const statusDiv = document.getElementById('formStatus');
-
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      // collect data
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const message = document.getElementById('message').value.trim();
-
-      if (!name || !email || !message) {
-        statusDiv.innerHTML = '<span class="text-danger">Please fill required fields (name, email, message).</span>';
-        return;
-      }
-
-      // change button state
-      const submitBtn = form.querySelector('button[type="submit"]');
-      const originalText = submitBtn.innerText;
-      submitBtn.innerText = 'Sending...';
-      submitBtn.disabled = true;
-
-      // --- REPLACE WITH YOUR OWN APPSCRIPT URL AFTER DEPLOYMENT ---
-      const appScriptUrl = 'https://script.google.com/macros/s/AKfycbyKPLOc1LC5QeN5XG3BP1rYMYa-B61N1xaZMpm_JPJ7eLSYakoLEJiTXPBHwC0EXvRaCw/exec'; // dummy, user must replace
-
-      // FormData to send
-      const formData = new URLSearchParams();
-      formData.append('name', name);
-      formData.append('email', email);
-      formData.append('phone', phone);
-      formData.append('message', message);
-
-      fetch(appScriptUrl, {
-        method: 'POST',
-        mode: 'no-cors', // recommended for appscript to avoid CORS
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData
-      })
-      .then(() => {
-        statusDiv.innerHTML = '<span class="text-success">Thank you! Your message has been sent (via Google Sheet).</span>';
-        form.reset(); // clear form
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        statusDiv.innerHTML = '<span class="text-danger">Something went wrong. Please try again later.</span>';
-      })
-      .finally(() => {
-        submitBtn.innerText = originalText;
-        submitBtn.disabled = false;
-        setTimeout(() => { statusDiv.innerHTML = ''; }, 5000);
-      });
-    });
-  })();
-</script>
-
-<!-- ========== GOOGLE SHEETS APPSCRIPT & SETUP INSTRUCTIONS ========== -->
-<!--
-  ⭐ APPSSCRIPT CODE (deploy as web app) ⭐
-
-  function doPost(e) {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    var data = e.parameter;
-    
-    // append row: Timestamp, Name, Email, Phone, Message
-    sheet.appendRow([
-      new Date(),
-      data.name,
-      data.email,
-      data.phone,
-      data.message
-    ]);
-    
-    return ContentService.createTextOutput(JSON.stringify({result: 'success'}))
-        .setMimeType(ContentService.MimeType.JSON);
-  }
-
-  function doGet() { return doPost(); } // optional for testing
-
-  📌 STEP BY STEP SETUP:
-  1. Create a new Google Sheet. Name columns: A: Timestamp, B: Name, C: Email, D: Phone, E: Message.
-  2. In the sheet menu: Extensions → Apps Script.
-  3. Paste the above code (replace any existing content).
-  4. Click Save (💾) and give your project a name (e.g., "Portfolio Contact").
-  5. Deploy → New deployment → Type: Web App.
-  6. Set "Execute as" to "Me", and "Who has access" to "Anyone" (or anyone with link).
-  7. Click Deploy, and copy the Web App URL (looks like: https://script.google.com/macros/s/.../exec).
-  8. IMPORTANT: After first deployment, you may see a warning; click "Advanced" and "Go to ... (unsafe)" to authorize.
-  9. Replace the 'appScriptUrl' in the JavaScript above with your copied URL.
-  10. Now the form will send data to your Google Sheet.
-
-  ⚠️ If you use 'no-cors' mode, you won't see detailed response, but the data will arrive. Test with a sample.
--->
-</body>
-</html>
+    </script>
+<style>
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #00d4ff, #0088ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 selection:bg-primary/30">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<header class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5 px-6 md:px-20 py-4">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-primary rounded-lg flex items-center justify-center text-background-dark shadow-[0_0_20px_rgba(0,212,255,0.4)]">
+<span class="material-symbols-outlined font-bold">code</span>
+</div>
+<h2 class="font-heading text-xl font-extrabold tracking-tighter uppercase">Niaz <span class="text-primary">De Coder</span></h2>
+</div>
+<nav class="hidden md:flex items-center gap-10">
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#work">Work</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#education">Journey</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#stack">Stack</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#services">Consultancy</a>
+<a class="px-6 py-2.5 bg-primary text-background-dark rounded-full text-sm font-bold hover:scale-105 transition-transform" href="#contact">Hire Me</a>
+</nav>
+<button class="md:hidden text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<main class="flex-1">
+<section class="min-h-screen flex flex-col md:flex-row items-center pt-20">
+<div class="w-full md:w-1/2 px-6 md:px-20 py-12 flex flex-col justify-center">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 w-fit mb-6">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="text-xs font-bold text-primary tracking-wider uppercase">Available for new projects</span>
+</div>
+<h1 class="font-heading text-5xl md:text-7xl font-black leading-tight tracking-tight mb-6">
+                        Crafting <span class="text-gradient">Digital</span> Excellence
+                    </h1>
+<p class="text-lg md:text-xl text-slate-400 max-w-xl mb-10 leading-relaxed">
+                        Full-Stack Developer &amp; Business Consultant specializing in scalable web solutions and enterprise-grade architecture.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<a class="px-8 py-4 bg-primary text-background-dark font-bold rounded-xl hover:shadow-[0_0_30px_rgba(0,212,255,0.3)] transition-all" href="#work">Explore My Work</a>
+<a class="px-8 py-4 glass text-white font-bold rounded-xl hover:bg-white/10 transition-all" href="#contact">Get in Touch</a>
+</div>
+</div>
+<div class="w-full md:w-1/2 h-[50vh] md:h-screen relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-background-dark to-transparent z-10 md:block hidden"></div>
+<img class="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" data-alt="Professional portrait of a male developer in a dark studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlW7e3pjfX0jjIcFnGyP8nmWTUjH5GMGdS8PiB1cMuexbp1hXVzhL1aq_6clOESP-KRF_Lkn-uICb1JK7iK5VoJGDgp1AZJKpmgE9ubJjz3O2rk9WdsJsIu2ElAdUvKF9SEt0mBo3vONynKodeEWoJKvMeEgBfz2Bgwrq88d3xGevopGGczWK5jqqpIo_FfQseeBpZ7gOMnHzidFlYVq8n1PriJDHnkN7K6tuT7U5_D13Z5lfhRFoz8JbFJli4cW_awO4QQn6CpJs"/>
+<div class="absolute bottom-10 right-10 z-20 glass p-6 rounded-2xl hidden md:block">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-full border-2 border-primary overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Client testimonial avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgrqSNryZC9yaNrlR-u_KVN9fGsdNmkmwpmTWcb6iiIO3Y4X1iNbCjz7pvB3jfFEByL_AbcZmFFsYA_te33F8w3o-XVbtA6UPsINc7lfylPgVVeQI0KTYasNAiiTRHgg79amo6txzht1idzIYa4fsXaEotTeQUgXFKkRdVkFgQ3p3I-jHBxaet1tG9JU-mtSm9r_1QVYm3hTHxDRkxFl_LdiLGQq7WF4GZzCy3IggRpxg4zAxiaH7ZLDjbnIDzYFPJus5b8Cx_b6E"/>
+</div>
+<div>
+<p class="text-xs text-slate-400 font-medium">Top Rated Freelancer</p>
+<div class="flex text-primary">
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 px-6 md:px-20 bg-charcoal/50" id="education">
+<div class="max-w-4xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-heading text-3xl md:text-5xl font-extrabold mb-4">Professional <span class="text-primary">Journey</span></h2>
+<p class="text-slate-400">A timeline of academic and professional milestones</p>
+</div>
+<div class="space-y-0">
+<div class="grid grid-cols-[60px_1fr] md:grid-cols-[1fr_60px_1fr] items-start">
+<div class="hidden md:flex flex-col items-end pt-1 pr-8 text-right order-1">
+<span class="text-primary font-bold text-lg">Current</span>
+<span class="text-slate-500 text-sm">AIUB</span>
+</div>
+<div class="flex flex-col items-center order-2">
+<div class="size-10 rounded-full bg-primary/20 border-2 border-primary flex items-center justify-center text-primary z-10">
+<span class="material-symbols-outlined">school</span>
+</div>
+<div class="w-0.5 bg-primary/20 h-32"></div>
+</div>
+<div class="pl-8 pt-1 order-3">
+<h3 class="text-xl font-bold">BBA at AIUB</h3>
+<p class="text-slate-400 mt-2 mb-4 leading-relaxed">Focusing on business intelligence and management strategies to bridge the gap between technology and operations.</p>
+<span class="inline-block md:hidden text-primary font-bold text-sm mb-4">AIUB • Current</span>
+</div>
+</div>
+<div class="grid grid-cols-[60px_1fr] md:grid-cols-[1fr_60px_1fr] items-start">
+<div class="hidden md:flex flex-col items-end pt-1 pr-8 text-right order-1">
+<span class="text-primary font-bold text-lg">2018 - 2020</span>
+<span class="text-slate-500 text-sm">Dhaka Commerce College</span>
+</div>
+<div class="flex flex-col items-center order-2">
+<div class="size-10 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center text-slate-400 z-10">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<div class="w-0.5 bg-primary/20 h-32"></div>
+</div>
+<div class="pl-8 pt-1 order-3">
+<h3 class="text-xl font-bold">Dhaka Commerce College</h3>
+<p class="text-slate-400 mt-2 mb-4 leading-relaxed">Completed Higher Secondary education with a focus on business and economic fundamentals.</p>
+<span class="inline-block md:hidden text-primary font-bold text-sm mb-4">DCC • 2018 - 2020</span>
+</div>
+</div>
+<div class="grid grid-cols-[60px_1fr] md:grid-cols-[1fr_60px_1fr] items-start">
+<div class="hidden md:flex flex-col items-end pt-1 pr-8 text-right order-1">
+<span class="text-primary font-bold text-lg">Professional</span>
+<span class="text-slate-500 text-sm">BKIICT-BCC</span>
+</div>
+<div class="flex flex-col items-center order-2">
+<div class="size-10 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center text-slate-400 z-10">
+<span class="material-symbols-outlined">terminal</span>
+</div>
+</div>
+<div class="pl-8 pt-1 order-3">
+<h3 class="text-xl font-bold">Web Development Certification</h3>
+<p class="text-slate-400 mt-2 mb-4 leading-relaxed">Intensive professional training at BKIICT-BCC covering full-stack web architectures and modern development practices.</p>
+<span class="inline-block md:hidden text-primary font-bold text-sm mb-4">BKIICT • 2021</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 px-6 md:px-20" id="work">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+<div>
+<h2 class="font-heading text-3xl md:text-5xl font-extrabold mb-4">The <span class="text-primary">Showroom</span></h2>
+<p class="text-slate-400">A collection of premium digital products and platforms.</p>
+</div>
+<div class="flex gap-4">
+<button class="size-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-primary hover:text-background-dark transition-all">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<button class="size-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-primary hover:text-background-dark transition-all">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<div class="md:col-span-8 group relative overflow-hidden rounded-2xl glass h-[400px]">
+<img class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-500" data-alt="Billing dashboard interface with data visualizations" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvwnrzPo9r6Q9XN5uWs5YRdi-drTVrwsvzip4-_mIb3EFMyH61BcLq5gwFuuUntcApULKQqVCd2v6ozz9-chFBsrRV7k5aj32FP6ushNGn6OHWn_G4EFaOby8B1jqSLEFK43j9AsEdvxm6KYqQR3rAlZ4u6UfY4YAvsr1k2v44kUBbcPUJQzeC1exTEMc5Tn6xvXeWLTUDIGGUUmzDkljdzynI7s_gVdvTqr1xvGvBVi-iZWKfZ6_p8QtTzl_ApF8TKnZtzpG45d8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8">
+<div class="flex gap-2 mb-3">
+<span class="px-3 py-1 bg-primary/20 border border-primary/30 rounded-full text-[10px] font-bold text-primary uppercase">Fintech</span>
+<span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold text-white uppercase">React</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">Billing Dashboard</h3>
+<p class="text-slate-300 text-sm max-w-md">Comprehensive financial monitoring system for enterprise-level billing and subscription management.</p>
+</div>
+</div>
+<div class="md:col-span-4 group relative overflow-hidden rounded-2xl glass h-[400px]">
+<img class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-500" data-alt="Modern restaurant management interface on tablet" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZzI46fL9UjC5uYREhUeRlDMTTgF7UQmW2XeyzS3GenGxlFrDqzNO8hLOQuBLx_udLZUsrsTh_7SB0-N-QxXMkdpIyJpK5qjaYVjc4LepmRKTg-cSEdGOaA1OW887YTUSW_RP6TmoLl3Ar94twbcTVx-LltjR4L_--gevP4627wEpAzjOCgr0NLdE2uwIPYIaFoZPSlyq3b4P2CPrLsZgP-sF0wUk-J-3oQvuxwxB24toWgy92tN3VZGLxIWA-Nwdp0pu-mfwKAIk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8">
+<span class="inline-block px-3 py-1 bg-primary/20 border border-primary/30 rounded-full text-[10px] font-bold text-primary uppercase mb-3">POS &amp; Inventory</span>
+<h3 class="text-2xl font-bold mb-2">Restaurant Pro</h3>
+</div>
+</div>
+<div class="md:col-span-4 group relative overflow-hidden rounded-2xl glass h-[400px]">
+<img class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-500" data-alt="E-commerce shopping application interface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqol-py3eNXicraz_NTdWmt8RrHgXOvPKQrXhkMpl5aW9ns4GSxs6IWU6rl6T0Bde83_o1Ryr785HMYCAKhsucdonnPfZo7IQLzIrFuBoJjmQg9BYh9L3ljKrx7Ipd_dcf-ON1yUvpt__bxoNLYKGfJ1AGOTeps8B4Cdq7vnXwShkwX5adkLc3oVIfVdDeLvcI2Edld9i0njn6Tjo_tvFAzEpIg-zMgKW4P9PoM_txeP3ZfJdqGdk7Z-dFEgjc4pnPvjyFQd0vxkw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8">
+<span class="inline-block px-3 py-1 bg-primary/20 border border-primary/30 rounded-full text-[10px] font-bold text-primary uppercase mb-3">E-Commerce</span>
+<h3 class="text-2xl font-bold mb-2">E-Shopping Platform</h3>
+</div>
+</div>
+<div class="md:col-span-4 group relative overflow-hidden rounded-2xl glass h-[400px]">
+<img class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-500" data-alt="Hotel booking reservation screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGaPTfhxQVvU5r6wacZVFzcTXK7__Qhma26pbMAg4Fl08p6zE1TGZ6eHwzAoNxp8VLiPsbqNbY6zv1ET9S9UaEvf-Zp0unxR4OCUZ9w05IADXIt_QcFXrFwPYhVNUPRphyvG_KGBLK1_m6zt1R6XsQppzvsPKWc6ooN2PuV81OgHpmHgeuRoZ3QfuQv8SyZQ5ymNaQvfm2guXW1a-azFOdT2QSQnc8gYJlpFv1m6RWJ-pyajSsxgVtaMaQIvnkE1DbGgfo_Wr3uXo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8">
+<span class="inline-block px-3 py-1 bg-primary/20 border border-primary/30 rounded-full text-[10px] font-bold text-primary uppercase mb-3">Hospitality</span>
+<h3 class="text-2xl font-bold mb-2">Hotel Booking System</h3>
+</div>
+</div>
+<div class="md:col-span-4 group relative overflow-hidden rounded-2xl glass h-[400px]">
+<img class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-500" data-alt="Gaming portal dashboard with player stats" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-3QiH3V-IjlMQI467wAFwpMtAe6pqhRLxWPHZ-FfDfJVTbkreO0pVca_pCKXJqoeoOH1nenXkql2h2civ0uaZhPuSTz6IKsazB7KReUn9PMHSlo0jr1oJ0sMnkV7iVTc2ANq_wFqxb5Fmhv-UfU5g1eJt_GjhTHG4NkeO0tCswVY9BNtpsMH5I5BriDOqxDCCCExpqvrpoq4pnmzHZtfBK7NYw4L7NbihgLJ0cWiGbeRKG2B9TBDXq3t1KEiT46MEoqg0lDAdvx4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8">
+<span class="inline-block px-3 py-1 bg-primary/20 border border-primary/30 rounded-full text-[10px] font-bold text-primary uppercase mb-3">Gaming</span>
+<h3 class="text-2xl font-bold mb-2">Gaming Portal</h3>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 px-6 md:px-20 bg-charcoal/30" id="stack">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-heading text-3xl md:text-5xl font-extrabold mb-4">Tech <span class="text-primary">Stack</span></h2>
+<p class="text-slate-400">The tools and technologies I use to build world-class products</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+<div class="glass p-8 rounded-2xl flex flex-col items-center justify-center gap-4 hover:border-primary/50 transition-all group">
+<div class="size-16 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-4xl">html</span>
+</div>
+<span class="font-bold">HTML5</span>
+</div>
+<div class="glass p-8 rounded-2xl flex flex-col items-center justify-center gap-4 hover:border-primary/50 transition-all group">
+<div class="size-16 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-4xl">css</span>
+</div>
+<span class="font-bold">CSS3</span>
+</div>
+<div class="glass p-8 rounded-2xl flex flex-col items-center justify-center gap-4 hover:border-primary/50 transition-all group">
+<div class="size-16 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-4xl">javascript</span>
+</div>
+<span class="font-bold">JavaScript</span>
+</div>
+<div class="glass p-8 rounded-2xl flex flex-col items-center justify-center gap-4 hover:border-primary/50 transition-all group">
+<div class="size-16 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-4xl">php</span>
+</div>
+<span class="font-bold">PHP</span>
+</div>
+<div class="glass p-8 rounded-2xl flex flex-col items-center justify-center gap-4 hover:border-primary/50 transition-all group">
+<div class="size-16 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-4xl">terminal</span>
+</div>
+<span class="font-bold">Python</span>
+</div>
+<div class="glass p-8 rounded-2xl flex flex-col items-center justify-center gap-4 hover:border-primary/50 transition-all group">
+<div class="size-16 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-4xl">layers</span>
+</div>
+<span class="font-bold">React</span>
+</div>
+<div class="glass p-8 rounded-2xl flex flex-col items-center justify-center gap-4 hover:border-primary/50 transition-all group">
+<div class="size-16 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-4xl">palette</span>
+</div>
+<span class="font-bold">Tailwind</span>
+</div>
+<div class="glass p-8 rounded-2xl flex flex-col items-center justify-center gap-4 hover:border-primary/50 transition-all group">
+<div class="size-16 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-4xl">database</span>
+</div>
+<span class="font-bold">MySQL</span>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 px-6 md:px-20 overflow-hidden relative" id="services">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[600px] bg-primary/10 rounded-full blur-[120px] -z-10"></div>
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-20">
+<div class="w-full md:w-1/2">
+<div class="glass p-8 md:p-12 rounded-3xl relative">
+<div class="absolute -top-10 -right-10 size-40 bg-primary/20 rounded-full blur-3xl"></div>
+<h2 class="font-heading text-4xl font-black mb-6">Niaz <span class="text-primary">Executive</span> Consultancy</h2>
+<p class="text-slate-300 mb-8 leading-relaxed text-lg">
+                                Beyond code, I provide strategic business development services to help startups and established firms scale their operations through technology.
+                            </p>
+<ul class="space-y-4 mb-10">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+<span>Business Process Automation</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+<span>Scalable Infrastructure Planning</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+<span>Product Roadmap Strategy</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+<span>Technology Stack Auditing</span>
+</li>
+</ul>
+<button class="w-full py-4 bg-primary text-background-dark font-bold rounded-xl hover:scale-[1.02] transition-transform">Schedule a Strategy Session</button>
+</div>
+</div>
+<div class="w-full md:w-1/2 grid grid-cols-2 gap-4">
+<div class="glass p-6 rounded-2xl aspect-square flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-4xl text-primary mb-3">trending_up</span>
+<span class="text-2xl font-bold">45%</span>
+<span class="text-xs text-slate-400 mt-1 uppercase tracking-widest">Growth Avg</span>
+</div>
+<div class="glass p-6 rounded-2xl aspect-square flex flex-col items-center justify-center text-center mt-8">
+<span class="material-symbols-outlined text-4xl text-primary mb-3">groups</span>
+<span class="text-2xl font-bold">20+</span>
+<span class="text-xs text-slate-400 mt-1 uppercase tracking-widest">Clients Helped</span>
+</div>
+<div class="glass p-6 rounded-2xl aspect-square flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-4xl text-primary mb-3">workspace_premium</span>
+<span class="text-2xl font-bold">100%</span>
+<span class="text-xs text-slate-400 mt-1 uppercase tracking-widest">Success Rate</span>
+</div>
+<div class="glass p-6 rounded-2xl aspect-square flex flex-col items-center justify-center text-center mt-8">
+<span class="material-symbols-outlined text-4xl text-primary mb-3">speed</span>
+<span class="text-2xl font-bold">2x</span>
+<span class="text-xs text-slate-400 mt-1 uppercase tracking-widest">Efficiency</span>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 px-6 md:px-20 bg-charcoal/50" id="contact">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-16">
+<div class="w-full md:w-1/3">
+<h2 class="font-heading text-4xl md:text-5xl font-extrabold mb-6">Let's <span class="text-primary">Collaborate</span></h2>
+<p class="text-slate-400 mb-10 leading-relaxed">
+                            Have a complex project or business challenge? Let's discuss how we can build a solution that drives real value.
+                        </p>
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-xl bg-white/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div>
+<p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Email Me</p>
+<p class="text-lg font-medium">hello@niazdecoder.com</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-xl bg-white/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">distance</span>
+</div>
+<div>
+<p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Location</p>
+<p class="text-lg font-medium">Dhaka, Bangladesh</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:w-2/3">
+<form class="glass p-8 md:p-12 rounded-3xl space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-sm font-bold text-slate-300">Full Name</label>
+<input class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="John Doe" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-bold text-slate-300">Email Address</label>
+<input class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="john@example.com" type="email"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-bold text-slate-300">Subject</label>
+<select class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
+<option class="bg-background-dark">Web Development</option>
+<option class="bg-background-dark">Business Consultancy</option>
+<option class="bg-background-dark">Full-Stack Project</option>
+<option class="bg-background-dark">Other</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-bold text-slate-300">Message</label>
+<textarea class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none" placeholder="Tell me about your project..." rows="4"></textarea>
+</div>
+<button class="w-full py-4 bg-primary text-background-dark font-black rounded-xl hover:shadow-[0_0_40px_rgba(0,212,255,0.4)] transition-all" type="submit">Send Message</button>
+</form>
+</div>
+</div>
+</section>
+</main>
+<footer class="py-12 px-6 md:px-20 border-t border-white/5">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-primary rounded flex items-center justify-center text-background-dark">
+<span class="material-symbols-outlined text-sm font-bold">code</span>
+</div>
+<h2 class="font-heading text-lg font-extrabold uppercase tracking-tighter">Niaz <span class="text-primary">De Coder</span></h2>
+</div>
+<div class="flex gap-8">
+<a class="text-slate-500 hover:text-primary transition-colors" href="#">LinkedIn</a>
+<a class="text-slate-500 hover:text-primary transition-colors" href="#">GitHub</a>
+<a class="text-slate-500 hover:text-primary transition-colors" href="#">Twitter</a>
+<a class="text-slate-500 hover:text-primary transition-colors" href="#">Instagram</a>
+</div>
+<p class="text-slate-500 text-sm">© 2024 Niaz De Coder. All rights reserved.</p>
+</div>
+</footer>
+</div>
+</body></html>
