@@ -33,22 +33,6 @@
             });
         });
 
-        // Form Handling
-        const contactForm = document.getElementById('contact-form');
-        const modal = document.getElementById('success-modal');
-
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            contactForm.reset();
-        });
-
-        function closeModal() {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('main-nav');
@@ -60,3 +44,34 @@
                 nav.classList.add('py-4');
             }
         });
+
+
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyLfqYIVhAkGtHA0gKGUazq7YHkQX3NgXMb8SkeRNQlarbCneCF-QD1qw4AMbHNVCAlww/exec'
+const form = document.forms['contact-form']
+
+form.addEventListener('submit', e => {
+  e.preventDefault()
+  
+  // Show a loading state on the button if you like
+  const submitBtn = form.querySelector('button[type="submit"]')
+  submitBtn.disabled = true
+  submitBtn.innerText = 'Sending...'
+
+  fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+    .then(response => {
+        // Show your success modal (already in your HTML)
+        document.getElementById('success-modal').style.display = 'flex';
+        form.reset();
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Submit Booking';
+    })
+    .catch(error => {
+        console.error('Error!', error.message);
+        alert('Something went wrong. Please try again.');
+        submitBtn.disabled = false;
+    })
+})
+
+function closeModal() {
+    document.getElementById('success-modal').style.display = 'none';
+}
